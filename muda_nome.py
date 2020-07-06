@@ -6,19 +6,42 @@ import sys
 import re
 import unidecode
 
+def get_file():
+    f = []
+    mypath = os.getcwd()
+    for (dirpath, dirnames, filenames) in os.walk(mypath):
+        f.extend(filenames)
+        break
+
+    return f
+
 def slugify(text):
     text = unidecode.unidecode(text).lower()
     return re.sub(r'[\W_]+', '_', text)
 
+def arq(name):
+
+    file_name, ext_name = (os.path.splitext(name))
+
+    old_file = name
+
+    slug ="{}{}".format(slugify(file_name), ext_name)
+
+    new_file = slug
+
+    if new_file not in get_file():
+        print("{}{} => {}".format(file_name, ext_name, new_file))
+        os.rename(old_file, new_file )
+
+
 if len(sys.argv) == 1:
     raise ValueError("This not have file")
 
-file_name = os.path.splitext(sys.argv[-1])
+if "-all" in sys.argv:
+    sys.argv.remove("-all")
 
-old_file = sys.argv[1]
+    for name in get_file():
+        arq(name)
 
-slug ="{}{}".format(slugify(file_name[0]), file_name[1])
-
-new_file = slug
-
-os.rename(old_file, new_file )
+else:
+    arq(sys.argv[-1])
