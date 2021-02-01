@@ -6,24 +6,11 @@
 import random
 import csv
 
-exe = {
-    1: ['a',"b","c"],
-    2: ['a',"b","c"],
-    3: ['a',"b","c"],
-    4: ['a',"b","c"],
-    5: ['a',"b","c", "d"],
-}
+from all_files import take_csv
 
-list_questões = []
-for i in range(15):
-    tmp = []
-
+dic_file = take_csv()
 
 print("Arquivo")
-dic_file = {
-    "c": ('Calculo', 'calculo.csv'),
-    'f': ("Fundamentos", 'fundamentos.csv'),
-}
 
 for key in dic_file:
     print(f"\t{key}: {dic_file[key][0]}")
