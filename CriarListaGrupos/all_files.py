@@ -9,6 +9,8 @@
 """
 import os
 
+dict = {"T": "teste1", "S": 'teste2'}
+
 def take_csv():
     arr = os.listdir()
     dic_file = {}
@@ -25,3 +27,12 @@ def take_csv():
             dic_file[first_letter] = (file_name.upper(), file)
 
     return dic_file
+
+def choice_file(dic_file):
+    resp = input("\nEscolha a lista ").upper()
+
+    if resp in dic_file.keys():
+        return dic_file[resp]
+
+    else:
+        return False

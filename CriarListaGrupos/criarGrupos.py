@@ -6,45 +6,47 @@
 import random
 import csv
 
-from all_files import take_csv
+from all_files import take_csv, choice_file
 
 dic_file = take_csv()
 
-print("Arquivo")
+if dic_file:
+    print("Arquivo")
 
-for key in dic_file:
-    print(f"\t{key}: {dic_file[key][0]}")
+    for key in dic_file:
+        print(f"\t{key}: {dic_file[key][0]}")
 
-choice_file = input("\nEscolha a lista ")
+    # choice_file = input("\nEscolha a lista ")
 
+    list_parter = []
+    with open(choice_file(dic_file)[1], 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
 
-list_parter = []
-with open(dic_file[choice_file][1], 'r') as csv_file:
-    csv_reader = csv.reader(csv_file)
+        for line in csv_file:
+            if "*" not in line:
+                list_parter.append(line.replace("\n", ''))
 
-    for line in csv_file:
-        if "*" not in line:
-            list_parter.append(line.replace("\n", ''))
+    print(f"Quantidade total: {len(list_parter)}")
 
-print(f"Quantidade total: {len(list_parter)}")
+    qtd = int(input("\nDigite qtd de componentes ")) # quantidade de alunos por grupo
+    list_group = []
+    while qtd < len(list_parter):
+        tmp = []
+        while len(tmp) < qtd:
+            name = random.choice(list_parter)
+            list_parter.remove(name)
+            tmp.append(name)
 
-qtd = int(input("\nDigite qtd de componentes ")) # quantidade de alunos por grupo
-list_group = []
-while qtd < len(list_parter):
-    tmp = []
-    while len(tmp) < qtd:
-        name = random.choice(list_parter)
-        list_parter.remove(name)
-        tmp.append(name)
+        list_group.append(tmp)
+    else:
+        list_group.append(list_parter)
 
-    list_group.append(tmp)
+    count = 1
+    for group in list_group:
+        print(count)
+        for parter in sorted(group):
+            print(f"\t{parter}")
+
+        count = count + 1
 else:
-    list_group.append(list_parter)
-
-count = 1
-for group in list_group:
-    print(count)
-    for parter in sorted(group):
-        print(f"\t{parter}")
-
-    count = count + 1
+    print("\nSem arquivos para analisar.\n")
