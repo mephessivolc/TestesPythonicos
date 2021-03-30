@@ -35,13 +35,19 @@ def arq(name):
 
 
 if len(sys.argv) == 1:
-    raise ValueError("This not have file")
-
-if "-all" in sys.argv:
-    sys.argv.remove("-all")
-
-    for name in get_file():
-        arq(name)
+    print("""Error:
+        This not have file
+        Usage is:
+          slug <filename1.ext> ... <filename2.ext>
+        or
+          slug -all """)
 
 else:
-    arq(sys.argv[-1])
+    if "-all" in sys.argv:
+        sys.argv.remove("-all")
+
+        for name in get_file():
+            arq(name)
+
+    else:
+        arq(sys.argv[-1])
